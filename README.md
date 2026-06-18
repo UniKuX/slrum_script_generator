@@ -1,7 +1,8 @@
 # SLURM Script Builder
 
-A small browser application that generates SLURM batch scripts entirely on the
-client. It does not connect to or submit jobs to a cluster.
+A fast browser-based SLURM script generator for people who would rather not
+write every directive by hand. Everything runs on the client; it does not
+connect to or submit jobs to a cluster.
 
 ## Run locally
 
