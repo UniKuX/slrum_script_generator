@@ -91,11 +91,19 @@
 
         <section class="form-section" aria-labelledby="environment-heading">
           <h3 id="environment-heading">Environment and command</h3>
-          <div class="field-grid">
+          <label class="field">
+            <span>Modules <b>optional</b></span>
+            <input name="modules" placeholder="e.g. cuda/12.1 gcc/12.2" />
+            <small>Separate module names with spaces</small>
+          </label>
+          <div class="field-grid top-gap">
             <label class="field">
-              <span>Modules <b>optional</b></span>
-              <input name="modules" placeholder="e.g. cuda/12.1 miniconda" />
-              <small>Separate module names with spaces</small>
+              <span>Conda installation path <b>optional</b></span>
+              <input
+                name="condaBasePath"
+                placeholder="e.g. /scratch/users/username/miniforge3"
+              />
+              <small>Base directory of your Anaconda, Miniconda, or Miniforge installation</small>
             </label>
             <label class="field">
               <span>Conda environment <b>optional</b></span>

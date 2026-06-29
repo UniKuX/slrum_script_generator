@@ -6,6 +6,7 @@ const SINGLE_LINE_FIELDS = [
   "gpuType",
   "nodeList",
   "modules",
+  "condaBasePath",
   "condaEnvironment",
   "output",
   "error",
@@ -50,6 +51,15 @@ export function validateJob(job) {
   }
   if (!job.command.trim()) throw new Error("Command is required.");
 
+  const condaBasePath = String(job.condaBasePath ?? "").trim();
+  const condaEnvironment = String(job.condaEnvironment ?? "").trim();
+  if (condaBasePath && !condaBasePath.startsWith("/")) {
+    throw new Error("Conda installation path must be an absolute path starting with /.");
+  }
+  if (condaBasePath && !condaEnvironment) {
+    throw new Error("Choose a Conda environment when using a Conda installation path.");
+  }
+
   positiveInteger("Nodes", job.nodes);
   positiveInteger("Tasks", job.tasks);
   positiveInteger("CPUs per task", job.cpusPerTask);
@@ -86,7 +96,7 @@ export function generateScript(job) {
     "#!/bin/bash",
     ...directives.map(([key, value]) => `#SBATCH --${key}=${value}`),
     "",
-    "set -euo pipefail",
+    "set -eo pipefail",
   ];
 
   const modules = job.modules.trim().split(/\s+/).filter(Boolean);
@@ -96,18 +106,33 @@ export function generateScript(job) {
 
   const condaEnvironment = String(job.condaEnvironment ?? "").trim();
   if (condaEnvironment) {
-    lines.push(
-      "",
-      "if ! command -v conda >/dev/null 2>&1; then",
-      '  echo "Conda is not available. Load its module or add it to PATH." >&2',
-      "  exit 1",
-      "fi",
-      'eval "$(conda shell.bash hook)"',
-      `conda activate ${shellQuote(condaEnvironment)}`,
-    );
+    const condaBasePath = String(job.condaBasePath ?? "").trim();
+    lines.push("");
+
+    if (condaBasePath) {
+      const condaScript = `${condaBasePath.replace(/\/+$/, "")}/etc/profile.d/conda.sh`;
+      const quotedCondaScript = shellQuote(condaScript);
+      lines.push(
+        `if [ ! -f ${quotedCondaScript} ]; then`,
+        '  echo "Conda initialization script was not found." >&2',
+        "  exit 1",
+        "fi",
+        `source ${quotedCondaScript}`,
+      );
+    } else {
+      lines.push(
+        "if ! command -v conda >/dev/null 2>&1; then",
+        '  echo "Conda is not available. Load its module or provide its installation path." >&2',
+        "  exit 1",
+        "fi",
+        'eval "$(conda shell.bash hook)"',
+      );
+    }
+
+    lines.push(`conda activate ${shellQuote(condaEnvironment)}`);
   }
 
-  lines.push("", job.command.trim(), "");
+  lines.push("", "set -u", "", job.command.trim(), "");
   return lines.join("\n");
 }
 

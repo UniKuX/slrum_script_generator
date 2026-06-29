@@ -15,6 +15,7 @@ const baseJob = {
   gpuType: "",
   nodeList: "",
   modules: "python/3.11",
+  condaBasePath: "",
   condaEnvironment: "",
   command: "python train.py",
   output: "%x-%j.out",
@@ -29,6 +30,8 @@ test("generates core directives and environment commands", () => {
   assert.match(script, /#SBATCH --ntasks=2/);
   assert.match(script, /#SBATCH --cpus-per-task=4/);
   assert.match(script, /module load python\/3\.11/);
+  assert.match(script, /set -eo pipefail/);
+  assert.match(script, /\nset -u\n/);
   assert.match(script, /python train\.py/);
   assert.doesNotMatch(script, /--gres/);
 });
@@ -53,6 +56,7 @@ test("initializes and activates a named Conda environment", () => {
   });
 
   assert.ok(script.indexOf("module load miniconda cuda/12.1") < script.indexOf("conda activate"));
+  assert.ok(script.indexOf("conda activate") < script.indexOf("set -u"));
   assert.match(script, /eval "\$\(conda shell\.bash hook\)"/);
   assert.match(script, /conda activate 'pytorch'/);
 });
@@ -64,6 +68,39 @@ test("safely quotes a Conda environment path", () => {
   });
 
   assert.match(script, /conda activate '\/work\/team'"'"'s envs\/pytorch'/);
+});
+
+test("initializes Conda from a user-provided installation", () => {
+  const script = generateScript({
+    ...baseJob,
+    condaBasePath: "/home/user/anaconda3/",
+    condaEnvironment: "analysis",
+  });
+
+  assert.match(
+    script,
+    /source '\/home\/user\/anaconda3\/etc\/profile\.d\/conda\.sh'/,
+  );
+  assert.match(script, /conda activate 'analysis'/);
+  assert.doesNotMatch(script, /conda shell\.bash hook/);
+});
+
+test("requires an absolute Conda installation path", () => {
+  assert.throws(
+    () => generateScript({
+      ...baseJob,
+      condaBasePath: "~/anaconda3",
+      condaEnvironment: "analysis",
+    }),
+    /absolute path starting with/,
+  );
+});
+
+test("requires an environment with a Conda installation path", () => {
+  assert.throws(
+    () => generateScript({ ...baseJob, condaBasePath: "/home/user/anaconda3" }),
+    /Choose a Conda environment/,
+  );
 });
 
 test("rejects multiline directive injection", () => {

@@ -21,4 +21,7 @@ npm test
 The form distinguishes nodes, tasks, and CPUs per task, supports optional GPU
 types, node lists, modules, and Conda environments, and provides live preview,
 copy, and download actions. Conda environments can be identified by name or by
-absolute path; modules are loaded before the environment is activated.
+absolute path. Users can provide the base directory of an Anaconda, Miniconda,
+or Miniforge installation, such as `/scratch/users/username/miniforge3`, so the
+batch script loads `etc/profile.d/conda.sh` directly. Modules are loaded before
+the environment is activated.
