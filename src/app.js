@@ -1,4 +1,4 @@
-import { generateScript, scriptFilename } from "./slurm.js";
+import { generateScript, scriptFilename } from "./slurm.js?v=0.1.1";
 
 const form = document.querySelector("#job-form");
 const output = document.querySelector("#script-output");
