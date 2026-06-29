@@ -1,14 +1,14 @@
 :root {
   color-scheme: light;
-  --ink: #2b171a;
-  --muted: #755f62;
-  --paper: #f8efed;
-  --panel: #fffafa;
-  --line: #e5d0d1;
-  --accent: #b42332;
-  --accent-dark: #7e1722;
-  --code: #2a1116;
-  --danger: #b42332;
+  --ink: #172121;
+  --muted: #64706d;
+  --paper: #f4f1e9;
+  --panel: #fffdf8;
+  --line: #d9d7cf;
+  --accent: #0c6b58;
+  --accent-dark: #074d40;
+  --code: #102825;
+  --danger: #a43b2d;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -19,7 +19,7 @@ body {
   min-width: 320px;
   color: var(--ink);
   background:
-    radial-gradient(circle at 12% 4%, rgba(229, 157, 162, 0.42), transparent 28rem),
+    radial-gradient(circle at 12% 4%, rgba(190, 218, 195, 0.55), transparent 28rem),
     var(--paper);
 }
 
@@ -55,7 +55,7 @@ h3 { margin-bottom: 1rem; font-size: 0.82rem; letter-spacing: 0.08em; text-trans
 .status-pill {
   flex: none;
   padding: 0.55rem 0.8rem;
-  border: 1px solid #dcb8bb;
+  border: 1px solid #b9c9c2;
   border-radius: 999px;
   color: var(--accent-dark);
   background: rgba(255, 255, 255, 0.5);
@@ -77,7 +77,7 @@ h3 { margin-bottom: 1rem; font-size: 0.82rem; letter-spacing: 0.08em; text-trans
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--panel);
-  box-shadow: 0 16px 50px rgba(77, 24, 31, 0.08);
+  box-shadow: 0 16px 50px rgba(30, 44, 40, 0.07);
 }
 
 .panel-heading {
@@ -103,7 +103,7 @@ h3 { margin-bottom: 1rem; font-size: 0.82rem; letter-spacing: 0.08em; text-trans
 
 input, textarea {
   width: 100%;
-  border: 1px solid #d8c3c5;
+  border: 1px solid #c9cbc5;
   border-radius: 8px;
   outline: none;
   color: var(--ink);
@@ -112,14 +112,14 @@ input, textarea {
 }
 input { height: 2.7rem; padding: 0 0.8rem; }
 textarea { min-height: 6.5rem; padding: 0.75rem 0.8rem; resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.5; }
-input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(180, 35, 50, 0.14); }
+input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(12, 107, 88, 0.12); }
 
 .form-error { margin: 1rem 1.75rem 1.5rem; padding: 0.8rem 1rem; border-left: 3px solid var(--danger); color: var(--danger); background: #fff1ed; font-size: 0.82rem; }
 
-.preview-panel { align-self: start; position: sticky; top: 1rem; background: var(--code); border-color: #562c34; color: #fff4f2; }
-.preview-heading { border-color: #5b2e36; }
-.preview-heading .step { color: #ff9ca6; }
-.line-count { color: #c9aeb2; font-size: 0.74rem; }
+.preview-panel { align-self: start; position: sticky; top: 1rem; background: var(--code); border-color: #27413d; color: #f8f3e8; }
+.preview-heading { border-color: #29443f; }
+.preview-heading .step { color: #8ed5c1; }
+.line-count { color: #9eaca9; font-size: 0.74rem; }
 
 .code-window {
   min-height: 480px;
@@ -127,20 +127,20 @@ input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px
   margin: 0;
   padding: 1.75rem;
   overflow: auto;
-  color: #ffe5e8;
+  color: #d9f1e8;
   font: 0.82rem/1.75 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   tab-size: 2;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
-.actions { display: flex; gap: 0.75rem; padding: 1rem 1.25rem 0.5rem; border-top: 1px solid #5b2e36; }
+.actions { display: flex; gap: 0.75rem; padding: 1rem 1.25rem 0.5rem; border-top: 1px solid #29443f; }
 .button { min-height: 2.75rem; flex: 1; border: 1px solid transparent; border-radius: 8px; font-weight: 750; }
-.primary { color: #350b11; background: #ef6a76; }
-.primary:hover { background: #ff858e; }
-.secondary { border-color: #7d4d55; color: #fff4f2; background: transparent; }
-.secondary:hover { background: #462029; }
-.action-status { min-height: 1.25rem; margin: 0; padding: 0 1.25rem 0.7rem; color: #d0b1b5; font-size: 0.75rem; text-align: center; }
+.primary { color: #0b2c25; background: #9ee1c9; }
+.primary:hover { background: #b6ecd8; }
+.secondary { border-color: #49635e; color: #f4f1e9; background: transparent; }
+.secondary:hover { background: #1a3631; }
+.action-status { min-height: 1.25rem; margin: 0; padding: 0 1.25rem 0.7rem; color: #a9bbb6; font-size: 0.75rem; text-align: center; }
 
 footer { padding: 0 2rem 2.5rem; color: var(--muted); font-size: 0.78rem; text-align: center; }
 footer code { color: var(--ink); }
